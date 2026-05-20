@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>AIPrompter Icon Generator</title></head>
+<body>
+  <p>アイコンを生成中...</p>
+  <canvas id="c"></canvas>
+  <script>
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+        this.beginPath();this.moveTo(x+r,y);this.lineTo(x+w-r,y);
+        this.quadraticCurveTo(x+w,y,x+w,y+r);this.lineTo(x+w,y+h-r);
+        this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);this.lineTo(x+r,y+h);
+        this.quadraticCurveTo(x,y+h,x,y+h-r);this.lineTo(x,y+r);
+        this.quadraticCurveTo(x,y,x+r,y);this.closePath();
+      };
+    }
+
+    function draw(size) {
+      const c = document.getElementById('c');
+      c.width = c.height = size;
+      const ctx = c.getContext('2d');
+      const r = size * 0.18;
+
+      // 背景（ダークパープル）
+      ctx.fillStyle = '#1e1e2e';
+      ctx.beginPath();
+      ctx.roundRect(0, 0, size, size, r);
+      ctx.fill();
+
+      // "/" 文字（アクセントカラー）
+      ctx.fillStyle = '#a78bfa';
+      ctx.font = `bold ${size * 0.55}px "SF Mono", "Fira Code", monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('/', size * 0.48, size * 0.52);
+
+      // 右下に小さいドット（プロンプトを示す）
+      ctx.fillStyle = '#e879f9';
+      const dot = size * 0.1;
+      ctx.beginPath();
+      ctx.arc(size * 0.78, size * 0.75, dot, 0, Math.PI * 2);
+      ctx.fill();
+
+      return c.toDataURL('image/png');
+    }
+
+    function download(url, name) {
+      const a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    }
+
+    setTimeout(() => {
+      [16, 48, 128].forEach(s => download(draw(s), `icon${s}.png`));
+      document.querySelector('p').textContent = '✅ icon16.png / icon48.png / icon128.png をダウンロードしました。iconsフォルダに移動してください。';
+    }, 300);
+  </script>
+</body>
+</html>

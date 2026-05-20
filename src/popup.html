@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../styles/popup.css" />
+</head>
+<body>
+  <!-- List view -->
+  <div id="list-view">
+    <div class="ap-header">
+      <h1>AIPrompter</h1>
+      <button id="add-btn">+ New</button>
+    </div>
+    <div id="prompt-list"></div>
+    <p class="ap-tip">Type <kbd>/</kbd> in ChatGPT, Claude, or Gemini</p>
+  </div>
+
+  <!-- Edit view -->
+  <div id="edit-view" class="hidden">
+    <div class="edit-header">
+      <button id="back-btn">← Back</button>
+      <span id="edit-title-label">New Prompt</span>
+    </div>
+    <div class="form-body">
+      <div class="form-group">
+        <label>Title</label>
+        <input id="title-input" placeholder="e.g. Summarize" maxlength="50" />
+      </div>
+      <div class="form-group">
+        <label>Prompt</label>
+        <textarea id="content-input" placeholder="Enter your prompt template..." rows="7"></textarea>
+      </div>
+      <div class="edit-actions">
+        <button id="save-btn" class="primary">Save</button>
+        <button id="delete-btn" class="danger hidden">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
