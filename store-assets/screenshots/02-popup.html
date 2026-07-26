@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>AIPrompter — Popup manager</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #14141f;
+  }
+  .stage {
+    position: relative; width: 1280px; height: 800px;
+    background:
+      radial-gradient(650px 550px at 92% 10%, rgba(167,139,250,0.32), transparent 60%),
+      radial-gradient(700px 600px at 4% 96%, rgba(232,121,249,0.20), transparent 60%),
+      linear-gradient(160deg, #1a1a2e 0%, #14141f 60%, #100f18 100%);
+  }
+
+  .logo { position: absolute; top: 56px; left: 72px; display: flex; align-items: center; gap: 12px; }
+  .logo .mark {
+    width: 44px; height: 44px; border-radius: 12px; background: #1e1e2e; border: 1px solid #3d3d5c;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .logo .mark .slash { font: 700 26px "SF Mono", "Fira Code", monospace; color: #a78bfa; margin-left: -3px; }
+  .logo .mark .dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #e879f9; right: 8px; bottom: 8px; }
+  .logo .word { font-size: 21px; font-weight: 700; color: #f4f4fb; letter-spacing: -0.2px; }
+
+  .copy { position: absolute; top: 224px; right: 72px; width: 470px; text-align: right; }
+  .copy h1 { font-size: 44px; line-height: 1.18; font-weight: 800; color: #f4f4fb; letter-spacing: -0.5px; }
+  .copy h1 .accent { color: #c9a9ff; }
+  .copy p { margin-top: 22px; font-size: 18px; line-height: 1.65; color: #b9b9d6; max-width: 430px; margin-left: auto; }
+
+  /* Browser toolbar + real popup UI */
+  .browser {
+    position: absolute; top: 150px; left: 96px; width: 560px;
+    background: #f4f4f7; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+  }
+  .toolbar { height: 46px; background: #e6e6ec; display: flex; align-items: center; padding: 0 14px; gap: 8px; }
+  .toolbar .tl { width: 10px; height: 10px; border-radius: 50%; background: #cfcfd8; }
+  .toolbar .addr { flex: 1; margin-left: 14px; height: 26px; background: #f4f4f7; border-radius: 7px; }
+  .toolbar .ext {
+    width: 30px; height: 30px; border-radius: 9px; background: #1e1e2e; border: 1px solid #3d3d5c;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .toolbar .ext .s { font: 700 17px "SF Mono", monospace; color: #a78bfa; margin-left: -2px; }
+  .toolbar .ext .d { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #e879f9; right: 5px; bottom: 5px; }
+
+  /* Actual popup, faithfully reproduced */
+  .popup { width: 340px; margin: 22px auto 26px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.18); overflow: hidden; }
+  .ap-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #eee; }
+  .ap-header h2 { font-size: 15px; font-weight: 700; color: #111; }
+  .add-btn { background: #111; color: #fff; border: none; border-radius: 7px; padding: 6px 13px; font-size: 12.5px; font-weight: 600; }
+  #prompt-list { padding: 7px; }
+  .prompt-item { padding: 10px 11px; border-radius: 8px; }
+  .prompt-item + .prompt-item { margin-top: 1px; }
+  .prompt-item.hl { background: #f4f4f5; }
+  .prompt-title { font-size: 13.5px; font-weight: 600; color: #111; }
+  .prompt-preview { font-size: 11.5px; color: #8a8a8a; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ap-tip { padding: 10px 16px; font-size: 11.5px; color: #aaa; border-top: 1px solid #eee; text-align: center; }
+  .ap-tip kbd { background: #f0f0f0; border: 1px solid #ccc; border-radius: 3px; padding: 1px 6px; font-size: 10.5px; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="logo">
+      <div class="mark"><span class="slash">/</span><span class="dot"></span></div>
+      <span class="word">AIPrompter</span>
+    </div>
+
+    <div class="copy">
+      <h1>Organize your <span class="accent">whole</span> prompt library.</h1>
+      <p>Add, edit, and manage every saved prompt from one simple popup — right in your toolbar.</p>
+    </div>
+
+    <div class="browser">
+      <div class="toolbar">
+        <span class="tl"></span><span class="tl"></span><span class="tl"></span>
+        <span class="addr"></span>
+        <span class="ext"><span class="s">/</span><span class="d"></span></span>
+      </div>
+      <div class="popup">
+        <div class="ap-header"><h2>AIPrompter</h2><button class="add-btn">+ New</button></div>
+        <div id="prompt-list">
+          <div class="prompt-item hl">
+            <div class="prompt-title">Summarize</div>
+            <div class="prompt-preview">Please summarize the following in 3 bullet points:</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-title">Translate to Japanese</div>
+            <div class="prompt-preview">Translate the following to Japanese:</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-title">Fix grammar</div>
+            <div class="prompt-preview">Please fix the grammar and improve the following text:</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-title">Explain code</div>
+            <div class="prompt-preview">Explain the following code step by step:</div>
+          </div>
+          <div class="prompt-item">
+            <div class="prompt-title">Write email</div>
+            <div class="prompt-preview">Write a professional email about:</div>
+          </div>
+        </div>
+        <p class="ap-tip">Type <kbd>/</kbd> in ChatGPT, Claude, or Gemini</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

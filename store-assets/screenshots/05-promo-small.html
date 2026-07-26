@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>AIPrompter — Small promo tile</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 440px; height: 280px; overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #14141f;
+  }
+  .stage {
+    position: relative; width: 440px; height: 280px;
+    background:
+      radial-gradient(260px 220px at 100% 0%, rgba(167,139,250,0.38), transparent 60%),
+      radial-gradient(260px 220px at 0% 100%, rgba(232,121,249,0.22), transparent 60%),
+      linear-gradient(160deg, #1a1a2e 0%, #14141f 60%, #100f18 100%);
+  }
+
+  .logo { position: absolute; top: 28px; left: 28px; display: flex; align-items: center; gap: 10px; }
+  .logo .mark {
+    width: 34px; height: 34px; border-radius: 10px; background: #1e1e2e; border: 1px solid #3d3d5c;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .logo .mark .slash { font: 700 20px "SF Mono", "Fira Code", monospace; color: #a78bfa; margin-left: -2px; }
+  .logo .mark .dot { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #e879f9; right: 6px; bottom: 6px; }
+  .logo .word { font-size: 17px; font-weight: 700; color: #f4f4fb; letter-spacing: -0.2px; }
+
+  .copy { position: absolute; top: 84px; left: 28px; width: 260px; }
+  .copy h1 { font-size: 27px; line-height: 1.2; font-weight: 800; color: #f4f4fb; letter-spacing: -0.4px; }
+  .copy h1 .accent { color: #c9a9ff; }
+  .copy p { margin-top: 12px; font-size: 13px; line-height: 1.5; color: #b9b9d6; }
+
+  .chip { position: absolute; top: 84px; right: 26px; }
+  .mini {
+    width: 150px; background: #1e1e2e; border: 1px solid #3d3d5c; border-radius: 10px; padding: 8px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .mini .item { padding: 6px 8px; border-radius: 6px; }
+  .mini .item.sel { background: #2d2d4e; }
+  .mini .t { font-size: 11px; font-weight: 700; color: #e0e0f0; display: block; }
+  .mini .p { font-size: 9px; color: #7878a0; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="logo">
+      <div class="mark"><span class="slash">/</span><span class="dot"></span></div>
+      <span class="word">AIPrompter</span>
+    </div>
+
+    <div class="copy">
+      <h1>Type <span class="accent">/</span> for instant prompts.</h1>
+      <p>Your saved templates, one keystroke away — in ChatGPT, Claude &amp; Gemini.</p>
+    </div>
+
+    <div class="chip">
+      <div class="mini">
+        <div class="item sel"><span class="t">Summarize</span><span class="p">Please summarize the following…</span></div>
+        <div class="item"><span class="t">Write email</span><span class="p">Write a professional email about:</span></div>
+        <div class="item"><span class="t">Explain code</span><span class="p">Explain the following code…</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

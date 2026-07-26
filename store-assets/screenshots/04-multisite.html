@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>AIPrompter — Multi-site</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #14141f;
+  }
+  .stage {
+    position: relative; width: 1280px; height: 800px;
+    background:
+      radial-gradient(700px 500px at 50% 0%, rgba(167,139,250,0.28), transparent 60%),
+      radial-gradient(800px 500px at 50% 100%, rgba(232,121,249,0.16), transparent 60%),
+      linear-gradient(160deg, #1a1a2e 0%, #14141f 60%, #100f18 100%);
+  }
+
+  .logo { position: absolute; top: 56px; left: 72px; display: flex; align-items: center; gap: 12px; }
+  .logo .mark {
+    width: 44px; height: 44px; border-radius: 12px; background: #1e1e2e; border: 1px solid #3d3d5c;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .logo .mark .slash { font: 700 26px "SF Mono", "Fira Code", monospace; color: #a78bfa; margin-left: -3px; }
+  .logo .mark .dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #e879f9; right: 8px; bottom: 8px; }
+  .logo .word { font-size: 21px; font-weight: 700; color: #f4f4fb; letter-spacing: -0.2px; }
+
+  .headline { position: absolute; top: 150px; left: 0; right: 0; text-align: center; }
+  .headline h1 { font-size: 42px; font-weight: 800; color: #f4f4fb; letter-spacing: -0.5px; }
+  .headline h1 .accent { color: #c9a9ff; }
+  .headline p { margin-top: 16px; font-size: 18px; color: #b9b9d6; }
+
+  .row { position: absolute; top: 296px; left: 60px; right: 60px; display: flex; justify-content: space-between; gap: 32px; }
+
+  .card { width: 362px; background: #191925; border: 1px solid #2c2c44; border-radius: 18px; overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.5); }
+  .card .top { height: 44px; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid #26263a; }
+  .site-badge { font-size: 12.5px; font-weight: 700; padding: 4px 11px; border-radius: 999px; }
+  .b1 { background: rgba(16,163,127,0.18); color: #6fe0c4; }
+  .b2 { background: rgba(217,119,87,0.18); color: #f0a583; }
+  .b3 { background: rgba(66,133,244,0.18); color: #8ab4f8; }
+
+  .card .body { padding: 22px 16px 0; height: 210px; position: relative; }
+  .skeleton { height: 9px; border-radius: 5px; background: #262638; margin-bottom: 10px; }
+  .skeleton.w1 { width: 88%; } .skeleton.w2 { width: 62%; } .skeleton.w3 { width: 74%; }
+
+  #dd { position: absolute; left: 16px; bottom: 66px; right: 16px; background: #1e1e2e; border: 1px solid #3d3d5c;
+    border-radius: 9px; padding: 4px; box-shadow: 0 14px 30px rgba(0,0,0,0.45); }
+  .card .dd-item { padding: 7px 10px; border-radius: 6px; }
+  .card .dd-item.sel { background: #2d2d4e; }
+  .card .dd-title { font-size: 12px; font-weight: 600; color: #e0e0f0; }
+  .card .dd-preview { font-size: 10px; color: #7878a0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+
+  .card .inputbar { position: absolute; left: 16px; right: 16px; bottom: 20px; height: 40px; background: #21212f;
+    border: 1px solid #33334a; border-radius: 20px; display: flex; align-items: center; padding: 0 14px; font-size: 13px; color: #e8e8f5; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="logo">
+      <div class="mark"><span class="slash">/</span><span class="dot"></span></div>
+      <span class="word">AIPrompter</span>
+    </div>
+
+    <div class="headline">
+      <h1>Works <span class="accent">everywhere</span> you chat with AI.</h1>
+      <p>One shortcut. Same prompt library. Every AI chat you use.</p>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <div class="top"><span class="site-badge b1">ChatGPT</span></div>
+        <div class="body">
+          <div class="skeleton w1"></div><div class="skeleton w2"></div><div class="skeleton w3"></div>
+          <div id="dd">
+            <div class="dd-item sel"><span class="dd-title">Summarize</span><span class="dd-preview">Please summarize the following in 3 bullet points:</span></div>
+            <div class="dd-item"><span class="dd-title">Fix grammar</span><span class="dd-preview">Please fix the grammar and improve…</span></div>
+          </div>
+          <div class="inputbar">/</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="site-badge b2">Claude</span></div>
+        <div class="body">
+          <div class="skeleton w2"></div><div class="skeleton w1"></div><div class="skeleton w3"></div>
+          <div id="dd">
+            <div class="dd-item"><span class="dd-title">Explain code</span><span class="dd-preview">Explain the following code step by step:</span></div>
+            <div class="dd-item sel"><span class="dd-title">Write email</span><span class="dd-preview">Write a professional email about:</span></div>
+          </div>
+          <div class="inputbar">/w</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="site-badge b3">Gemini</span></div>
+        <div class="body">
+          <div class="skeleton w3"></div><div class="skeleton w2"></div><div class="skeleton w1"></div>
+          <div id="dd">
+            <div class="dd-item sel"><span class="dd-title">Translate to Japanese</span><span class="dd-preview">Translate the following to Japanese:</span></div>
+            <div class="dd-item"><span class="dd-title">Summarize</span><span class="dd-preview">Please summarize the following in 3 bullet points:</span></div>
+          </div>
+          <div class="inputbar">/t</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
