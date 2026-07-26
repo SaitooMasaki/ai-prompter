@@ -8,10 +8,20 @@
   <!-- List view -->
   <div id="list-view">
     <div class="ap-header">
-      <h1>AIPrompter</h1>
-      <button id="add-btn">+ New</button>
+      <div class="ap-header-left">
+        <h1>AIPrompter</h1>
+        <span id="pro-badge" class="pro-badge hidden">PRO</span>
+      </div>
+      <div class="ap-header-right">
+        <button id="settings-btn" title="Settings">⚙</button>
+        <button id="add-btn">+ New</button>
+      </div>
     </div>
     <div id="prompt-list"></div>
+    <div id="upgrade-bar" class="upgrade-bar hidden">
+      <span id="upgrade-msg"></span>
+      <button id="upgrade-btn">Upgrade →</button>
+    </div>
     <p class="ap-tip">Type <kbd>/</kbd> in ChatGPT, Claude, or Gemini</p>
   </div>
 
@@ -27,12 +37,45 @@
         <input id="title-input" placeholder="e.g. Summarize" maxlength="50" />
       </div>
       <div class="form-group">
-        <label>Prompt</label>
-        <textarea id="content-input" placeholder="Enter your prompt template..." rows="7"></textarea>
+        <label>Prompt <span class="var-hint">Use {{variable}} for dynamic values</span></label>
+        <textarea id="content-input" placeholder="e.g. Write an email to {{recipient}} about {{topic}}" rows="7"></textarea>
       </div>
+      <div id="var-preview" class="var-preview hidden"></div>
       <div class="edit-actions">
         <button id="save-btn" class="primary">Save</button>
         <button id="delete-btn" class="danger hidden">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings view -->
+  <div id="settings-view" class="hidden">
+    <div class="edit-header">
+      <button id="settings-back-btn">← Back</button>
+      <span>Settings</span>
+    </div>
+    <div class="form-body">
+      <div id="pro-status-section">
+        <div id="free-status" class="plan-card">
+          <div class="plan-name">Free Plan</div>
+          <div class="plan-desc">Up to 10 prompt templates</div>
+        </div>
+        <div id="pro-status" class="plan-card pro hidden">
+          <div class="plan-name">✓ Pro Plan</div>
+          <div class="plan-desc">Unlimited prompts · Variables</div>
+        </div>
+      </div>
+      <div class="form-group" id="license-section">
+        <label>License Key</label>
+        <input id="license-input" placeholder="AIPRO-XXXX-XXXX-XXXX" />
+        <button id="activate-btn" class="primary" style="margin-top:8px">Activate</button>
+        <div id="license-msg" class="license-msg hidden"></div>
+      </div>
+      <div id="deactivate-section" class="hidden">
+        <button id="deactivate-btn" class="danger" style="width:100%">Remove License</button>
+      </div>
+      <div class="settings-footer">
+        <a href="https://saitoomasaki.lemonsqueezy.com/checkout/buy/feeee27b-b5fc-4a77-b1b3-999e812da6fa" target="_blank">Get Pro →</a>
       </div>
     </div>
   </div>
